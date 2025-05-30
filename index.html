@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>音效预算计算器</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f9;
+    }
+    .calculator {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    .calculator h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .calculator label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .calculator input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .calculator button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .calculator button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .note {
+      margin-top: 10px;
+      font-size: 14px;
+      text-align: center;
+      color: #555;
+    }
+    .supplier {
+      margin-top: 20px;
+      font-size: 12px;
+      text-align: center;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h1>音效预算计算器</h1>
+    <label for="basicSounds">基本音效数量</label>
+    <input type="number" id="basicSounds" placeholder="输入基本音效数量" min="0">
+    
+    <label for="randomSounds">随机音效数量</label>
+    <input type="number" id="randomSounds" placeholder="输入随机音效数量" min="0">
+    
+    <button onclick="calculateBudget()">计算预算</button>
+    
+    <div class="result" id="result">请输入数量，然后点击计算按钮。</div>
+    <div class="note">提示：由于音效复杂程度不同，价格仅为提前预估。</div>
+    <div class="supplier">供应商代号：PR</div>
+  </div>
+
+  <script>
+    function calculateBudget() {
+      // 获取用户输入的数量
+      const basicSounds = parseInt(document.getElementById('basicSounds').value) || 0;
+      const randomSounds = parseInt(document.getElementById('randomSounds').value) || 0;
+      
+      // 定义单价
+      const basicPrice = 70; // 基本音效单价（美金）
+      const randomPrice = basicPrice * 0.05; // 随机音效单价
+      
+      // 计算总价格
+      const totalPriceWithoutTax = (basicSounds * basicPrice) + (randomSounds * randomPrice);
+      const totalPriceWithTax = totalPriceWithoutTax * 1.06; // 加上6%税
+      
+      // 向上取整为最近的高整数
+      const finalBudget = Math.ceil(totalPriceWithTax / 100) * 100;
+      
+      // 显示结果
+      const resultDiv = document.getElementById('result');
+      resultDiv.textContent = `总价格（含税）：${finalBudget} 美金`;
+    }
+  </script>
+</body>
+</html>
